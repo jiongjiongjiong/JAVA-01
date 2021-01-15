@@ -49,5 +49,5 @@ public class HelloClassLoader extends ClassLoader{
 
 3.（必做）画一张图，展示 Xmx、Xms、Xmn、Meta、DirectMemory、Xss 这些内存参数的关系。
 
-![](/Users/congzhang/Documents/study/Java训练营/work/JAVA-01/Week_01/Java内存模型.png)
+![](https://github.com/jiongjiongjiong/JAVA-01/blob/main/Week_01/Java内存模型.png?raw=true)
 
