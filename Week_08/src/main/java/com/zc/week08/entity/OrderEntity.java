@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Data
 public class OrderEntity {
     @Id
-    private String orderNo;
+    private Long orderNo;
     private Long userId;
     private String mobile;
     private Long totalAmount;

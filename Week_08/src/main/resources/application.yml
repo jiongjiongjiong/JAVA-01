@@ -1,0 +1,40 @@
+spring:
+    shardingsphere:
+        datasource:
+            common:
+                driver-class-name: com.mysql.cj.jdbc.Driver
+                password: 123456
+                type: com.zaxxer.hikari.HikariDataSource
+                username: root
+            names: test01,test00
+            test00:
+                jdbc-url: jdbc:mysql://localhost:3306/test00?serverTimezone=Asia/Shanghai
+            test01:
+                jdbc-url: jdbc:mysql://localhost:3306/test01?serverTimezone=Asia/Shanghai
+        rules:
+            sharding:
+                key-generators:
+                    snowflake:
+                        props:
+                            worker-id: 123
+                        type: SNOWFLAKE
+                sharding-algorithms:
+                    database-inline:
+                        props:
+                            algorithm-expression: ds$->{user_id % 2}
+                        type: INLINE
+                    table-inline:
+                        props:
+                            algorithm-expression: t_order_$->{id % 16}
+                        type: INLINE
+                tables:
+                    t_order:
+                        actual-data-nodes: ds$->{0..1}.t_order_$->{0..15}
+                        database-strategy:
+                            standard:
+                                sharding-algorithm-name: database-inline
+                                sharding-column: user_id
+                        table-strategy:
+                            standard:
+                                sharding-algorithm-name: table-inline
+                                sharding-column: order_no
