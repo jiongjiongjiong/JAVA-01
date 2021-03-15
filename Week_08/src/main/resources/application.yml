@@ -1,16 +1,17 @@
+
 spring:
     shardingsphere:
         datasource:
             common:
                 driver-class-name: com.mysql.cj.jdbc.Driver
-                password: 123456
+                password: mUP36j6,GTqZRJiNNjc7
                 type: com.zaxxer.hikari.HikariDataSource
                 username: root
-            names: test01,test00
-            test00:
-                jdbc-url: jdbc:mysql://localhost:3306/test00?serverTimezone=Asia/Shanghai
-            test01:
-                jdbc-url: jdbc:mysql://localhost:3306/test01?serverTimezone=Asia/Shanghai
+            names: ds00,ds01
+            ds00:
+                jdbc-url: jdbc:mysql://localhost:3306/ds00?serverTimezone=UTC&useSSL=false&useUnicode=true&characterEncoding=UTF-8
+            ds01:
+                jdbc-url: jdbc:mysql://localhost:3306/ds01?serverTimezone=UTC&useSSL=false&useUnicode=true&characterEncoding=UTF-8
         rules:
             sharding:
                 key-generators:
@@ -21,7 +22,7 @@ spring:
                 sharding-algorithms:
                     database-inline:
                         props:
-                            algorithm-expression: ds$->{user_id % 2}
+                            algorithm-expression: ds0$->{user_id % 2}
                         type: INLINE
                     table-inline:
                         props:
@@ -29,7 +30,7 @@ spring:
                         type: INLINE
                 tables:
                     t_order:
-                        actual-data-nodes: ds$->{0..1}.t_order_$->{0..15}
+                        actual-data-nodes: ds0$->{0..1}.t_order_$->{0..15}
                         database-strategy:
                             standard:
                                 sharding-algorithm-name: database-inline
@@ -38,3 +39,5 @@ spring:
                             standard:
                                 sharding-algorithm-name: table-inline
                                 sharding-column: order_no
+
+
